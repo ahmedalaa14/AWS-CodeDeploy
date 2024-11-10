@@ -18,5 +18,5 @@ variable "public_key" {
 }
 
 variable "email" {
-  description = "your email address"
+  description = "workahmeedalaa@gmail.com"
 }
