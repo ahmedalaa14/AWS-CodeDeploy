@@ -2,10 +2,10 @@
 resource "aws_security_group" "UbuntuSG" {
 
   ingress {
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-    cidr_blocks  = ["0.0.0.0/0"]
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
@@ -14,11 +14,11 @@ resource "aws_security_group" "UbuntuSG" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
-  egress  {
-    from_port = 0
-    to_port   = 0
-    protocol  = "-1"
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -29,7 +29,7 @@ resource "tls_private_key" "pk" {
 }
 
 resource "aws_key_pair" "UbuntuKP" {
-  key_name = "ahmedkey"
+  key_name   = "ahmedkey"
   public_key = var.public_key
 
   provisioner "local-exec" {

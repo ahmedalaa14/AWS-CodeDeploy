@@ -1,13 +1,13 @@
 resource "aws_instance" "ubuntu-instance" {
-  ami           = var.ami
-  instance_type = "t2.medium"
-  key_name      = "ahmedkey"
+  ami             = var.ami
+  instance_type   = "t2.medium"
+  key_name        = "ahmedkey"
   security_groups = ["${aws_security_group.UbuntuSG.name}"]
 
-  tags  = {
-    Name  = "CodeDeployEC2"
+  tags = {
+    Name = "CodeDeployEC2"
   }
-  
+
   iam_instance_profile = aws_iam_instance_profile.codedeploy_instance_profile.name
 
   user_data = <<-EOF
@@ -24,29 +24,29 @@ resource "aws_instance" "ubuntu-instance" {
 }
 
 resource "aws_elb" "web_lb" {
-    name = "web-lb"
-    availability_zones = ["${var.region}a", "${var.region}b", "${var.region}c"]
-    security_groups = ["${aws_security_group.lb_sg.id}"]
-    listener {
-        instance_port = 80
-        instance_protocol = "HTTP"
-        lb_port = 80
-        lb_protocol = "HTTP"
-    }
-    health_check {
-        target = "HTTP:80/"
-        interval = 30
-        timeout = 5
-        unhealthy_threshold = 2
-        healthy_threshold = 2
-    }
-    cross_zone_load_balancing = true
-    idle_timeout = 400
-    connection_draining = true
-    connection_draining_timeout = 400
+  name               = "web-lb"
+  availability_zones = ["${var.region}a", "${var.region}b", "${var.region}c"]
+  security_groups    = ["${aws_security_group.lb_sg.id}"]
+  listener {
+    instance_port     = 80
+    instance_protocol = "HTTP"
+    lb_port           = 80
+    lb_protocol       = "HTTP"
+  }
+  health_check {
+    target              = "HTTP:80/"
+    interval            = 30
+    timeout             = 5
+    unhealthy_threshold = 2
+    healthy_threshold   = 2
+  }
+  cross_zone_load_balancing   = true
+  idle_timeout                = 400
+  connection_draining         = true
+  connection_draining_timeout = 400
 
-    instances = [aws_instance.ubuntu-instance.id]
-    tags = {
-        Name = "web-lb"
-    }
+  instances = [aws_instance.ubuntu-instance.id]
+  tags = {
+    Name = "web-lb"
+  }
 }
